@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitaciones Digitales - Diseños Únicos y Personalizados</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display for elegance, Inter for readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* Fuente predeterminada para el cuerpo */
+            overflow-x: hidden; /* Evita el desplazamiento horizontal */
+            background: #1a1a1a; /* Fondo negro elegante para la página principal */
+            color: #E6B800; /* Color dorado para el texto principal (encabezados por defecto) */
+        }
+
+        /* Aplica Playfair Display a los encabezados y al texto de la pantalla de inicio para elegancia */
+        #splash-screen h1,
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Override default body text color for specific elements if needed */
+        p, li {
+            color: #d1d5db; /* Un gris claro para el texto de párrafo sobre fondo oscuro */
+        }
+
+        /* Animación personalizada para que los elementos aparezcan gradualmente */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Efecto al pasar el cursor sobre las tarjetas */
+        .card-hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Efecto de brillo al pasar el cursor sobre los botones */
+        .btn-glow {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 215, 0, 0.2); /* Brillo dorado sutil */
+            border-radius: 50%;
+            transition: all 0.75s ease-out;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: -1;
+        }
+
+        .btn-glow:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .btn-glow:active {
+            transform: scale(0.98);
+        }
+
+        /* Efecto de partículas (solo CSS, puntos simples) */
+        .particle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: floatAndFade 15s infinite ease-in-out;
+        }
+
+        @keyframes floatAndFade {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-100vh) translateX(50vw) scale(0.8);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-200vh) translateX(100vw) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Estilos de la pantalla de inicio */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a; /* Fondo negro elegante */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Asegura que esté en la parte superior */
+            opacity: 1;
+            transition: opacity 1s ease-out; /* Para el efecto de desvanecimiento */
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none; /* Deshabilita interacciones después de desvanecerse */
+        }
+
+        #splash-screen h1 {
+            font-size: 4rem; /* Texto más grande para impacto */
+            color: #FFD700; /* Color amarillo */
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: relative; /* Para posicionar el fondo animado */
+            display: inline-block; /* Para que el fondo se ajuste al texto */
+            overflow: hidden; /* Para recortar el efecto de barrido */
+            padding: 0 10px; /* Pequeño padding para que el barrido no corte el texto */
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent); /* Gradiente para el efecto de barrido */
+            background-size: 200% 100%; /* El doble de ancho para el barrido */
+            background-position: -100% 0; /* Empieza fuera de la pantalla a la izquierda */
+            animation: textSweep 2s ease-in-out forwards; /* Animación de barrido */
+            animation-delay: 0.5s; /* Retraso para que el fondo empiece a barrer */
+            opacity: 0; /* Comienza oculto */
+        }
+
+        @keyframes textSweep {
+            0% {
+                background-position: -100% 0;
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            50% {
+                background-position: 100% 0;
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            100% {
+                background-position: 100% 0;
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Oculta inicialmente el contenido principal, luego lo hace visible después de la pantalla de inicio */
+        .main-content {
+            visibility: hidden; /* Oculta el contenido pero lo mantiene en el flujo para el diseño */
+            opacity: 0; /* Comienza completamente transparente */
+            transition: opacity 1s ease-out; /* Transición para la opacidad */
+        }
+
+        .main-content.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Pantalla de Inicio -->
+    <div id="splash-screen">
+        <h1>Invitaciones Digitales</h1>
+    </div>
+
+    <!-- Contenedor de Partículas -->
+    <div class="particle-container"></div>
+
+    <!-- Contenedor Principal del Contenido -->
+    <div class="main-content">
+        <!-- Encabezado -->
+        <header class="bg-zinc-900 bg-opacity-90 shadow-lg py-4 px-6 md:px-12 rounded-b-xl mb-8">
+            <nav class="container mx-auto flex justify-between items-center">
+                <a href="#" class="text-3xl font-bold text-amber-400 hover:text-amber-300 transition-colors duration-300">
+                    Invitaciones Digitales
+                </a>
+                <ul class="hidden md:flex space-x-8">
+                    <li><a href="#inicio" class="text-lg font-medium text-gray-300 hover:text-amber-400 transition-colors duration-300">Inicio</a></li>
+                    <li><a href="#caracteristicas" class="text-lg font-medium text-gray-300 hover:text-amber-400 transition-colors duration-300">Características</a></li>
+                    <li><a href="#galeria" class="text-lg font-medium text-gray-300 hover:text-amber-400 transition-colors duration-300">Galería</a></li>
+                    <li><a href="#contacto" class="text-lg font-medium text-gray-300 hover:text-amber-400 transition-colors duration-300">Contacto</a></li>
+                </ul>
+                <button class="md:hidden text-gray-300 focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Sección Principal (Hero) -->
+        <section id="inicio" class="relative container mx-auto text-center py-20 md:py-32 px-4 fade-in" style="animation-delay: 0.2s;">
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6 animate-pulse" style="color: #FFD700;">
+                Celebra a lo Grande, Envía Fácil
+            </h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto" style="color: #d1d5db;">
+                Descubre la forma más moderna y ecológica de invitar. Diseños espectaculares.
+            </p>
+            <a href="#galeria" class="btn-glow inline-block bg-amber-500 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:bg-amber-600 transition-all duration-300 transform hover:scale-105">
+                Explora Diseños Ahora
+            </a>
+        </section>
+
+        <!-- Sección de Características -->
+        <section id="caracteristicas" class="container mx-auto py-16 px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 fade-in" style="animation-delay: 0.4s; color: #FFD700;">¿Por qué elegir invitaciones digitales?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Característica 2 -->
+                <div class="bg-zinc-800 rounded-xl shadow-xl p-8 text-center card-hover-effect fade-in" style="animation-delay: 0.8s;">
+                    <div class="text-5xl mb-6" style="color: #FFD700;">🌳</div>
+                    <h3 class="text-2xl font-semibold mb-4" style="color: #FFD700;">Eco-Amigables</h3>
+                    <p class="text-gray-300">Reduce tu huella de carbono y contribuye al planeta con invitaciones sin papel.</p>
+                </div>
+                <!-- Característica 3 -->
+                <div class="bg-zinc-800 rounded-xl shadow-xl p-8 text-center card-hover-effect fade-in" style="animation-delay: 1s;">
+                    <div class="text-5xl mb-6" style="color: #FFD700;">🚀</div>
+                    <h3 class="text-2xl font-semibold mb-4" style="color: #FFD700;">Envío Instantáneo</h3>
+                    <p class="text-gray-300">Llegan al instante a tus invitados, sin esperas ni costos de envío.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Galería -->
+        <section id="galeria" class="container mx-auto py-16 px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 fade-in" style="animation-delay: 1.2s; color: #FFD700;">Nuestra Galería de Diseños</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Tarjeta de Invitación 1 - XV Años -->
+                <div class="bg-zinc-800 rounded-xl shadow-xl overflow-hidden card-hover-effect fade-in" style="animation-delay: 1.4s;">
+                    <img src="https://placehold.co/600x400/A78BFA/ffffff?text=XV+A%C3%B1os" alt="Invitación de XV Años" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2" style="color: #FFD700;">XV Años</h3>
+                        <p class="text-gray-300">Un diseño especial para celebrar esta fecha inolvidable.</p>
+                        <a href="https://invitaciones12.github.io/prueba-xv-a-os/" class="mt-4 btn-glow bg-amber-500 text-white py-2 px-4 rounded-full text-sm hover:bg-amber-600 inline-block">Ver Detalles</a>
+                    </div>
+                </div>
+                <!-- Tarjeta de Invitación 2 - Baby Shower -->
+                <div class="bg-zinc-800 rounded-xl shadow-xl overflow-hidden card-hover-effect fade-in" style="animation-delay: 1.6s;">
+                    <img src="https://placehold.co/600x400/8B5CF6/ffffff?text=Baby+Shower" alt="Invitación de Baby Shower" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2" style="color: #FFD700;">Dulce Espera</h3>
+                        <p class="text-gray-300">Tierna invitación para celebrar la llegada de un bebé.</p>
+                        <a href="https://invitaciones12.github.io/prueba/" class="mt-4 btn-glow bg-amber-500 text-white py-2 px-4 rounded-full text-sm hover:bg-amber-600 inline-block">Ver Detalles</a>
+                    </div>
+                </div>
+                <!-- Tarjeta de Invitación 3 - Graduación -->
+                <div class="bg-zinc-800 rounded-xl shadow-xl overflow-hidden card-hover-effect fade-in" style="animation-delay: 1.8s;">
+                    <img src="https://placehold.co/600x400/EC4899/ffffff?text=Graduacion" alt="Invitación de Graduación" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2" style="color: #FFD700;">Logro Brillante</h3>
+                        <p class="text-gray-300">Celebra el éxito con un diseño moderno y festivo.</p>
+                        <button class="mt-4 btn-glow bg-amber-500 text-white py-2 px-4 rounded-full text-sm hover:bg-amber-600">Ver Detalles</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Llamada a la Acción / Contacto -->
+        <section id="contacto" class="bg-zinc-800 text-white py-20 px-4 mt-16 rounded-t-xl">
+            <div class="container mx-auto text-center fade-in" style="animation-delay: 2.6s;">
+                <h2 class="text-4xl font-bold mb-6" style="color: #FFD700;">¿Listo para crear tu invitación perfecta?</h2>
+                <p class="text-xl mb-10 max-w-2xl mx-auto" style="color: #d1d5db;">
+                    Contáctanos hoy mismo para empezar a diseñar la invitación digital de tus sueños.
+                </p>
+                <a href="https://wa.me/4471660425?text=%C2%A1Hola%21%2C%20quiero%20mas%20informaci%C3%B3n%20de%20las%20invitaciones" class="btn-glow inline-block bg-amber-500 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:bg-amber-600 transition-all duration-300 transform hover:scale-105">
+                    Contáctanos
+                </a>
+            </div>
+        </section>
+
+        <!-- Pie de Página -->
+        <footer class="bg-zinc-900 text-gray-300 py-8 px-4 text-center rounded-b-xl">
+            <div class="container mx-auto">
+                <p style="color: #d1d5db;">&copy; 2025 Invitaciones Digitales.</p>
+            </div>
+        </footer>
+    </div> <!-- Fin del main-content -->
+
+    <script>
+        // JavaScript para animaciones dinámicas y efectos
+
+        // Desplazamiento suave para los enlaces de navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Función para crear partículas
+        function createParticle() {
+            const particleContainer = document.querySelector('.particle-container');
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            // Tamaño aleatorio para las partículas
+            const size = Math.random() * 10 + 5; // Tamaño entre 5px y 15px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+
+            // Posición inicial aleatoria
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${100 + Math.random() * 20}vh`; // Comienza debajo del viewport
+
+            // Duración de animación aleatoria
+            particle.style.animationDuration = `${Math.random() * 10 + 10}s`; // 10 a 20 segundos
+            particle.style.animationDelay = `${Math.random() * 5}s`; // Retraso aleatorio
+
+            particleContainer.appendChild(particle);
+
+            // Elimina la partícula después de la animación para evitar fugas de memoria
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+            });
+        }
+
+        // Genera partículas periódicamente
+        setInterval(createParticle, 500); // Crea una nueva partícula cada 500ms
+
+        // Observador de Intersección para animaciones de aparición gradual
+        const fadeInElements = document.querySelectorAll('.fade-in');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% del elemento visible para activar
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target); // Deja de observar una vez animado
+                }
+            });
+        }, observerOptions);
+
+        fadeInElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Alternar menú móvil simple (si es necesario, actualmente oculto por CSS)
+        const mobileMenuButton = document.querySelector('header button');
+        const navLinks = document.querySelector('header ul');
+
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                navLinks.classList.toggle('hidden');
+                navLinks.classList.toggle('flex');
+                navLinks.classList.toggle('flex-col');
+                navLinks.classList.toggle('absolute');
+                navLinks.classList.toggle('top-full');
+                navLinks.classList.toggle('left-0');
+                navLinks.classList.toggle('w-full');
+                navLinks.classList.toggle('bg-white');
+                navLinks.classList.toggle('shadow-lg');
+                navLinks.classList.toggle('py-4');
+                navLinks.classList.toggle('items-center');
+                navLinks.classList.toggle('space-y-4');
+                navLinks.classList.toggle('md:space-y-0'); // Restablecer para escritorio
+            });
+        }
+
+        // Lógica de la Pantalla de Inicio
+        window.addEventListener('load', () => {
+            const splashScreen = document.getElementById('splash-screen');
+            const mainContent = document.querySelector('.main-content');
+
+            // Establece un retraso para que la pantalla de inicio se desvanezca y aparezca el contenido principal
+            const splashDuration = 3000; // Duración total de la animación del splash screen
+
+            setTimeout(() => {
+                splashScreen.classList.add('hidden'); // Inicia el desvanecimiento de la pantalla de inicio
+
+                // Escucha el final de la transición de desvanecimiento de la pantalla de inicio
+                splashScreen.addEventListener('transitionend', () => {
+                    splashScreen.remove(); // Elimina la pantalla de inicio del DOM
+                    mainContent.classList.add('visible'); // Hace visible el contenido principal
+                }, { once: true });
+
+            }, splashDuration);
+        });
+    </script>
+</body>
+</html>
